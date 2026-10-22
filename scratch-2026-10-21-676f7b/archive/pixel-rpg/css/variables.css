@@ -1,0 +1,70 @@
+/* =========================================================
+   Design tokens: a strict 16-colour palette.
+   tools/make_sprites.py draws the art with these same 16 colours.
+   ========================================================= */
+:root {
+  --c0:  #0d0221;  /* ink black-violet  */
+  --c1:  #1a0b3d;  /* night             */
+  --c2:  #2e1760;  /* deep violet       */
+  --c3:  #4b2a8c;  /* violet            */
+  --c4:  #6d3fc0;  /* bright violet     */
+  --c5:  #9b6fe0;  /* lavender          */
+  --c6:  #c5a3ff;  /* lilac             */
+  --c7:  #e8d5ff;  /* pale lilac        */
+  --c8:  #ff7eb6;  /* pixel pink        */
+  --c9:  #ffb3d1;  /* soft pink         */
+  --c10: #ffe4f0;  /* blush             */
+  --c11: #fff7fb;  /* white             */
+  --c12: #ffd36e;  /* window light      */
+  --c13: #3d7a5a;  /* stem dark         */
+  --c14: #6fbf73;  /* leaf              */
+  --c15: #ff5c8a;  /* pōhutukawa red    */
+
+  /* Roles */
+  --ink:        var(--c11);
+  --ink-soft:   var(--c7);
+  --ink-muted:  var(--c6);
+  --accent:     var(--c9);
+  --box-bg:     var(--c2);
+  --box-edge:   var(--c7);
+  --box-inner:  var(--c5);
+  --box-gap:    var(--c1);
+  --shadow:     var(--c0);
+
+  /* Type: Press Start 2P sits on an 8px grid, so keep it at multiples of 8 */
+  --font-pixel: "Press Start 2P", ui-monospace, monospace;
+  --font-text:  "VT323", ui-monospace, monospace;
+  --title-size: 16px;
+  --text-size:  26px;
+
+  /* One "art pixel" in CSS px. JS sets it to a whole number (2–4) for the screen. */
+  --px: 3px;
+
+  /* Layout */
+  --app-max: 480px;
+  --gutter: 16px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* Viewport: dvh for content, lvh for the fixed backdrop so it never jumps */
+  --screen: 100vh;
+  --screen-large: 100vh;
+
+  /* Layers */
+  --z-content: 2;
+  --z-banner: 30;
+  --z-dialogue: 35;
+  --z-finale: 40;
+  --z-flash: 45;
+  --z-petals: 50;
+  --z-sound: 55;
+  --z-gate: 60;
+  --z-cursor: 70;
+}
+
+@supports (height: 100dvh) {
+  :root {
+    --screen: 100dvh;
+    --screen-large: 100lvh;
+  }
+}

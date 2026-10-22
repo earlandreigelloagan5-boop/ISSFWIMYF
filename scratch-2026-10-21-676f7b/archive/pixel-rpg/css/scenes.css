@@ -1,0 +1,110 @@
+/* =========================================================
+   Fixed stage (pixel scenes) + anchor + journey
+   ========================================================= */
+.stage {
+  position: fixed;
+  left: 0; right: 0; top: 0;
+  height: var(--screen-large);
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  contain: strict;
+  background: var(--c1);
+}
+
+.scene, .frame, .veil, .motes, .snow, .wipe {
+  position: absolute;
+  inset: 0;
+}
+.scene--alps { visibility: hidden; }
+
+/* Containers for the 120×270 scene PNGs: scaled to cover, never smoothed */
+.pixel-scene {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 100%;
+}
+.pixel-scene--nz-sky    { background-image: url("../assets/nz-sky.png"); }
+.pixel-scene--nz-land   { background-image: url("../assets/nz-land.png");   will-change: transform; }
+.pixel-scene--alps-sky  { background-image: url("../assets/alps-sky.png"); }
+.pixel-scene--alps-land { background-image: url("../assets/alps-land.png"); will-change: transform; }
+
+.flake {
+  position: absolute;
+  top: 0;
+  width: var(--px);
+  height: var(--px);
+  background: var(--c11);
+  will-change: transform;
+}
+
+.frame .pixel-sprite { position: absolute; }
+
+.veil { background: var(--c0); opacity: 0; }
+
+/* Retro tile wipe between scenes */
+.wipe {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(13, 1fr);
+}
+.wipe__tile {
+  background: var(--c1);
+  outline: 1px solid var(--c1);   /* hides hairline seams between tiles */
+  transform: scale(0);
+  will-change: transform;
+}
+.wipe__tile:nth-child(odd) { background: var(--c2); outline-color: var(--c2); }
+
+/* ---------- 1. Anchor ---------- */
+.anchor {
+  position: relative;
+  min-height: var(--screen);
+  padding: calc(var(--safe-top) + 84px) calc(var(--gutter) + var(--px) * 2) 0;
+}
+
+.hero-box { will-change: transform, opacity; }
+.hero-box__name { color: var(--c9); margin-bottom: calc(var(--px) * 3); }
+.hero-box__text { color: var(--ink-soft); }
+
+.hero-tulip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--safe-bottom) + 56px);
+  transform: translateX(-50%);
+  padding: 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.hero-tulip .pixel-sprite { will-change: transform; }
+
+.scroll-hint {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: calc(var(--safe-bottom) + 18px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: calc(var(--px) * 3);
+  color: var(--c7);
+}
+
+
+/* ---------- 2. Journey ---------- */
+.journey {
+  height: calc(var(--screen) * 2.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 0 calc(var(--gutter) + var(--px) * 2);
+}
+
+.caption {
+  width: 82%;
+  color: var(--ink-soft);
+  visibility: hidden;
+}
+.caption--right { align-self: flex-end; }

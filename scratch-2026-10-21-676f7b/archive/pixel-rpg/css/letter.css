@@ -1,0 +1,77 @@
+/* =========================================================
+   3. The Letter: a fixed RPG dialogue box
+   ========================================================= */
+.letter-section {
+  min-height: var(--screen);
+  display: grid;
+  place-items: center;
+  padding: 0 calc(var(--gutter) + var(--px) * 2);
+}
+
+.letter-sign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--px) * 3);
+  text-align: center;
+}
+.letter-sign .px-title { color: var(--c9); }
+.letter-sign__sub { color: var(--ink-soft); }
+.letter-sign .px-btn { margin-top: calc(var(--px) * 3); }
+
+/* ---------- Dialogue overlay ---------- */
+.dialogue {
+  position: fixed;
+  left: 0; right: 0; top: 0;
+  height: var(--screen);
+  z-index: var(--z-dialogue);
+  display: flex;
+  align-items: flex-end;
+  padding: 0 calc(var(--gutter) + var(--px) * 2) calc(var(--safe-bottom) + var(--gutter) + var(--px) * 3);
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: none;
+}
+.dialogue[hidden] { display: none; }
+
+.dialogue__box {
+  width: 100%;
+  padding-top: calc(var(--px) * 8);
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+
+.dialogue__name {
+  position: absolute;
+  left: calc(var(--px) * 3);
+  top: calc(var(--px) * -9);
+  display: flex;
+  align-items: center;
+  gap: calc(var(--px) * 2);
+  padding: calc(var(--px) * 2) calc(var(--px) * 4);
+  background: var(--c4);
+}
+
+
+.dialogue__text {
+  /* Fixed height: typing never resizes the box */
+  min-height: calc(var(--text-size) * 1.12 * 7);
+  color: var(--ink);
+  overflow-wrap: break-word;
+}
+
+.dialogue__foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: calc(var(--px) * 2);
+  font-size: 20px;
+  color: var(--ink-muted);
+}
+.dialogue__next {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--px) * 3);
+  color: var(--c9);
+  visibility: hidden;
+}

@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en" class="is-locked">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1a0b3d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="format-detection" content="telephone=no">
+  <title>For You, Mahal</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
+  <link rel="preload" as="image" href="assets/nz-sky.png">
+  <link rel="preload" as="image" href="assets/nz-land.png">
+  <link rel="preload" as="image" href="assets/tulip.png">
+
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/scenes.css">
+  <link rel="stylesheet" href="css/letter.css">
+  <link rel="stylesheet" href="css/resolve.css">
+  <link rel="stylesheet" href="css/ui.css">
+</head>
+<body>
+
+  <!-- ============ TITLE SCREEN (audio gate) ============ -->
+  <div class="gate" id="gate" role="dialog" aria-modal="true" aria-label="Title screen">
+    <div class="px-stars" id="gate-stars" aria-hidden="true"></div>
+    <div class="gate__inner">
+      <p class="gate__sub">a little world, made only for you</p>
+      <h1 class="gate__title px-title">
+        <span class="gate__line">FOR MY</span>
+        <span class="gate__line gate__line--pink">MAHAL</span>
+      </h1>
+      <div class="gate__tulip" id="gate-tulip" aria-hidden="true"></div>
+      <button class="px-btn gate__start" id="gate-btn" type="button">
+        <span class="px-arrow px-arrow--right" aria-hidden="true"></span>
+        <span>PRESS START</span>
+      </button>
+      <p class="gate__hint">sound on, if you can</p>
+    </div>
+  </div>
+
+  <!--
+    🎵 Background song: put her song at audio/song.mp3 (or change the src).
+    If the file is missing, the site still works; the sound button just stays hidden.
+  -->
+  <audio id="bgm" src="audio/song.mp3" preload="auto" loop playsinline></audio>
+
+  <button class="sound px-btn" id="sound" type="button" aria-label="Mute music" aria-pressed="false" hidden>
+    <span class="sound__bar"></span><span class="sound__bar"></span><span class="sound__bar"></span><span class="sound__bar"></span>
+  </button>
+
+  <!-- Area-name banner, like entering a new zone in an RPG -->
+  <div class="banner rpg-box" id="banner" aria-live="polite">
+    <span class="px-title" id="banner-text">PAKURANGA, NZ</span>
+  </div>
+
+  <!-- ============ FIXED STAGE ============
+       Each .pixel-scene is a container for a 120×270 PNG (see assets/).
+       Swap in your own art at the same size; it scales up with nearest-neighbour. -->
+  <div class="stage" id="stage" aria-hidden="true">
+    <div class="scene" id="scene-nz">
+      <div class="pixel-scene pixel-scene--nz-sky"></div>
+      <div class="px-stars" id="stars-nz"></div>
+      <div class="pixel-scene pixel-scene--nz-land" id="nz-land"></div>
+    </div>
+
+    <div class="scene scene--alps" id="scene-alps">
+      <div class="pixel-scene pixel-scene--alps-sky"></div>
+      <div class="px-stars" id="stars-alps"></div>
+      <div class="pixel-scene pixel-scene--alps-land" id="alps-land"></div>
+      <div class="snow" id="snow"></div>
+    </div>
+
+    <div class="motes" id="motes"></div>
+    <div class="frame" id="frame"></div>
+    <div class="veil" id="veil"></div>
+    <div class="wipe" id="wipe"></div>
+  </div>
+
+  <!-- ============ SCROLLING STORY ============ -->
+  <main class="content" id="content">
+
+    <!-- 1. The Anchor -->
+    <section class="anchor" id="anchor">
+      <div class="rpg-box hero-box" id="hero-box">
+        <p class="hero-box__name px-title" id="hero-name">MAHAL,</p>
+        <p class="hero-box__text" id="hero-text">There's something I need to say, and I want to say it properly. So I made you a little world to read it in.</p>
+      </div>
+
+      <button class="hero-tulip" id="hero-tulip" type="button" aria-label="A purple pixel tulip. Tap it."></button>
+
+      <div class="scroll-hint" aria-hidden="true">
+        <span class="px-title">SCROLL</span>
+        <span class="px-arrow px-arrow--down"></span>
+      </div>
+    </section>
+
+    <!-- 2. The Journey -->
+    <section class="journey" id="journey">
+      <p class="caption rpg-box">From the quiet, pink evenings of Pakuranga...</p>
+      <p class="caption caption--right rpg-box">...all the way to the mountains you've always dreamed of.</p>
+      <p class="caption rpg-box">I'd cross every one of them just to say this to you.</p>
+    </section>
+
+    <!-- 3. The Letter -->
+    <section class="letter-section" id="letter-section">
+      <div class="rpg-box letter-sign">
+        <div class="letter-sign__icon" id="letter-icon" aria-hidden="true"></div>
+        <p class="px-title">A LETTER</p>
+        <p class="letter-sign__sub" id="letter-status">for you, from me</p>
+        <button class="px-btn" id="letter-again" type="button" hidden>
+          <span class="px-arrow px-arrow--right" aria-hidden="true"></span>
+          <span>READ AGAIN</span>
+        </button>
+      </div>
+
+      <!-- ✏️ The letter. Each <p> is one speech; long ones split into pages automatically.
+           It's visually hidden here (screen readers read it all) and shown in the dialogue box. -->
+      <div class="sr-only" id="letter-source" data-speaker="ME">
+        <p>My mahal,</p>
+        <p>I've started this letter more times than I can count. Every version felt too small for what I actually want to say, so I'm just going to say it plainly: I'm sorry.</p>
+        <p>I'm sorry for what I said, and for what I didn't say when it mattered. I'm sorry for the way I made you feel. Unheard, and alone with something I should have been holding with you. You never deserved that. Not for a second.</p>
+        <p>I keep thinking about our evenings. The sky going pink, then purple, and how everything felt soft and quiet when you were next to me. That's the version of us I want to protect. That's the version of me I want to be for you.</p>
+        <p>And I think about Switzerland, and the look in your eyes when you talk about it. I want to be the one standing beside you when you finally see those mountains. Not just there, but everywhere before it.</p>
+        <p>I'm not writing this to rush you into forgiving me. Take all the time you need. I'll be here, doing the work. Listening more, reacting less, and showing you instead of just telling you.</p>
+        <p>You are my favourite person. My calm. My home. I'm so sorry, mahal.</p>
+        <!-- ✏️ Put your name here -->
+        <p>Forever yours, your person.</p>
+      </div>
+    </section>
+
+    <!-- 4. The Interactive Resolution -->
+    <section class="resolve" id="resolve">
+      <div class="rpg-box resolve__box">
+        <p>One last thing.</p>
+        <p>Hold this tulip for me, and don't let go.</p>
+      </div>
+
+      <button class="hold" id="hold" type="button" aria-describedby="hold-label">
+        <span class="hold__frame rpg-box">
+          <span class="hold__tulip" id="hold-tulip"></span>
+        </span>
+      </button>
+
+      <div class="charge rpg-box" aria-hidden="true">
+        <div class="charge__track" id="charge"></div>
+      </div>
+      <p class="hold__label px-title" id="hold-label" aria-live="polite">PRESS &amp; HOLD</p>
+    </section>
+  </main>
+
+  <!-- ============ DIALOGUE BOX (the letter) ============ -->
+  <div class="dialogue" id="dialogue" role="dialog" aria-label="The letter" hidden>
+    <div class="dialogue__box rpg-box" id="dialogue-box">
+      <div class="dialogue__name rpg-box">
+        <span class="dialogue__heart" id="dialogue-heart" aria-hidden="true"></span>
+        <span class="px-title" id="dialogue-speaker">ME</span>
+      </div>
+      <p class="dialogue__text" aria-hidden="true"><span id="dialogue-text"></span><span class="px-cursor">█</span></p>
+      <div class="dialogue__foot">
+        <span class="dialogue__count" id="dialogue-count"></span>
+        <span class="dialogue__next" id="dialogue-next">
+          <span>tap to continue</span>
+          <span class="px-arrow px-arrow--down" aria-hidden="true"></span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FINALE ============ -->
+  <section class="finale" id="finale" aria-hidden="true" data-scrollable>
+    <div class="px-stars" id="finale-stars" aria-hidden="true"></div>
+    <div class="finale__inner">
+      <h2 class="finale__title px-title" id="finale-title">I'M SORRY, MAHAL.</h2>
+      <div class="rpg-box finale__box">
+        <p class="finale__text" id="finale-text">You deserve to feel safe, heard, and loved, every single day. I'm going to make sure you do. One day, Switzerland. Together. I promise.</p>
+      </div>
+      <p class="finale__love px-title" id="finale-love">MAHAL NA<br>MAHAL KITA</p>
+      <button class="px-btn finale__again" id="read-again" type="button">
+        <span class="px-arrow px-arrow--right" aria-hidden="true"></span>
+        <span>READ AGAIN</span>
+      </button>
+    </div>
+    <div class="finale__garden" id="bouquet" aria-hidden="true"></div>
+  </section>
+
+  <div class="flash" id="flash" aria-hidden="true"></div>
+  <canvas class="petals" id="petals" aria-hidden="true"></canvas>
+
+  <noscript><p class="noscript">Please turn on JavaScript, mahal. There's something here for you.</p></noscript>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

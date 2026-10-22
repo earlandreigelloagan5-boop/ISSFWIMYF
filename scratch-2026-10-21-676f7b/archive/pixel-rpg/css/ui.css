@@ -1,0 +1,114 @@
+/* =========================================================
+   Title screen, sound toggle, area banner, cursor, motes
+   ========================================================= */
+
+/* ---------- Title screen ---------- */
+.gate {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-gate);
+  display: grid;
+  place-items: center;
+  background: var(--c1);
+  touch-action: none;
+}
+.gate__inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--px) * 6);
+  padding: var(--gutter);
+  text-align: center;
+}
+.gate__sub { color: var(--ink-muted); font-size: 22px; }
+.gate__title {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--px) * 3);
+  font-size: 24px;
+  color: var(--c7);
+  text-shadow: var(--px) var(--px) 0 var(--c3), calc(var(--px) * 2) calc(var(--px) * 2) 0 var(--c0);
+}
+.gate__line { display: block; will-change: transform; }
+.gate__line--pink { font-size: 32px; color: var(--c9); }
+.gate__tulip { will-change: transform; }
+.gate__start { will-change: opacity; }
+.gate__hint { color: var(--ink-muted); font-size: 20px; }
+
+/* ---------- Sound toggle ---------- */
+.sound {
+  position: fixed;
+  top: calc(var(--safe-top) + 14px);
+  right: max(14px, calc(50vw - var(--app-max) / 2 + 14px));
+  z-index: var(--z-sound);
+  gap: var(--px);
+  align-items: flex-end;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-height: 0;
+  padding: 0 0 calc(var(--px) * 3);
+  opacity: 0;
+}
+.sound[hidden] { display: none; }
+.sound__bar {
+  width: var(--px);
+  height: calc(var(--px) * 5);
+  background: var(--c10);
+  transform-origin: 50% 100%;
+  transform: scaleY(.4);
+  will-change: transform;
+}
+
+/* ---------- Area banner ---------- */
+.banner {
+  position: fixed;
+  top: calc(var(--safe-top) + 18px);
+  left: 0; right: 0;
+  width: max-content;
+  padding: calc(var(--px) * 3) calc(var(--px) * 5);
+  background: var(--c3);
+  z-index: var(--z-banner);
+  pointer-events: none;
+  visibility: hidden;
+  will-change: transform;
+}
+.banner .px-title { color: var(--c10); }
+
+/* ---------- Pixel cursor + trail ---------- */
+.cursor-px {
+  position: fixed;
+  left: 0; top: 0;
+  z-index: var(--z-cursor);
+  width: calc(var(--px) * 2);
+  height: calc(var(--px) * 2);
+  background: var(--c9);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.cursor-px--head {
+  background: var(--c11);
+  box-shadow: 0 0 0 var(--px) var(--c8), 0 0 0 calc(var(--px) * 2) var(--c4);   /* hard pixel "glow" rings */
+}
+.cursor-px--tail-1 { background: var(--c8); }
+.cursor-px--tail-2 { background: var(--c5); }
+.cursor-px--tail-3 { background: var(--c4); }
+.cursor-ring {
+  position: fixed;
+  left: 0; top: 0;
+  z-index: var(--z-cursor);
+  width: calc(var(--px) * 16);
+  height: calc(var(--px) * 16);
+  border: var(--px) solid var(--c9);
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+@media (hover: hover) and (pointer: fine) {
+  body, button { cursor: none; }
+}
+
+/* ---------- Floating hearts & sparkles ---------- */
+.motes { overflow: hidden; }
+.motes .pixel-sprite { position: absolute; top: 0; opacity: 0; will-change: transform, opacity; }
